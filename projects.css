@@ -1,0 +1,85 @@
+div.proj_content {
+    border: #000 solid 2px;
+    clear: left;
+    padding: 1em;
+    height: 600px;
+    width: 650px;
+}
+
+div.proj_content.inactive {
+    display: none;
+}
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+a.hovertext {
+  position: relative;
+  width: 300px;
+  text-decoration: none !important;
+  text-align: center;
+}
+a.hovertext:after {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  padding: 0.5em 20px;
+  z-index: 1;
+  width: 300px;
+  background: rgba(0,0,0,0.8);
+  text-decoration: none !important;
+  color: #fff;
+  opacity: 0;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+}
+a.hovertext:hover:after, a.hovertext:focus:after {
+  opacity: 1.0;
+}
+
+div.hban {
+   position: absolute;
+   top: 225px;
+   left: 100px;
+   width: 1118px;
+}
+
+div.hban span {
+   color: white;
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.9);
+   padding-left: 1118px;
+   padding-bottom: 10px;
+}
+
+.link-spanner {
+  position:absolute;
+  width:300px;
+  height:300px;
+  top:300;
+  left: 0;
+
+  /* edit: added z-index */
+  z-index: 4;
+
+  /* edit: fixes overlap error in IE7/8, 
+     make sure you have an empty gif */
+  background: rgba(255,255,255,0.4);
+}
+
+.link-spanner:hover{
+    opacity: 0.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    -ms-transition: 0.5s;
+}

@@ -2,8 +2,6 @@ div.proj_content {
     border: #000 solid 2px;
     clear: left;
     padding: 1em;
-    height: 600px;
-    width: 650px;
 }
 
 div.proj_content.inactive {

@@ -8,6 +8,18 @@ div.proj_content.inactive {
     display: none;
 }
 
+body, .navbar-fixed-top, .navbar-fixed-bottom {
+  margin-right: 0 !important;
+}
+
+.modal-open, .modal-open .navbar-fixed-top {
+  margin-right: 0 !important;
+}
+
+html {
+  overflow-y: scroll;
+}
+
 body {
   padding-top: 50px;
 }
@@ -54,7 +66,7 @@ div.hban span {
    color: white;
    background: rgb(0, 0, 0); /* fallback color */
    background: rgba(0, 0, 0, 0.9);
-   padding-left: 1118px;
+   padding-left: 0px;
    padding-bottom: 10px;
 }
 

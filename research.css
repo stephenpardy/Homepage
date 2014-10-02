@@ -2,18 +2,11 @@ div.proj_content {
     border: #000 solid 2px;
     clear: left;
     padding: 1em;
+
 }
 
 div.proj_content.inactive {
     display: none;
-}
-
-body, .navbar-fixed-top, .navbar-fixed-bottom {
-  margin-right: 0 !important;
-}
-
-.modal-open, .modal-open .navbar-fixed-top {
-  margin-right: 0 !important;
 }
 
 html {

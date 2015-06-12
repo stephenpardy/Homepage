@@ -50,10 +50,12 @@ a.hovertext:after {
   content: attr(title);
   position: absolute;
   left: 0;
-  bottom: 4px;
+  bottom: 0px;
+  top: 280px;
   padding: 0.5em 20px;
   z-index: 1;
   width: 300px;
+  height: 30px;
   background: rgba(0,0,0,0.8);
   text-decoration: none !important;
   color: #fff;
@@ -82,28 +84,47 @@ div.hban span {
    padding-bottom: 10px;
 }
 
-.link-spanner {
-  position:absolute;
-  width:300px;
-  height:300px;
-  top:300;
+
+
+span.text-content {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  cursor: pointer;
+  display: table;
+  height: 150px;
   left: 0;
-
-  /* edit: added z-index */
-  z-index: 4;
-
-  /* edit: fixes overlap error in IE7/8, 
-     make sure you have an empty gif */
-  background: rgba(255,255,255,0.4);
+  position: absolute;
+  top: 0;
+  width: 150px;
+  opacity: 0;
+  -webkit-transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  transition: opacity 500ms;
 }
 
-.link-spanner:hover{
-    opacity: 0.0;
-    filter: alpha(opacity=100); /* For IE8 and earlier */
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -o-transition: 0.5s;
-    -ms-transition: 0.5s;
+ul.img-list li:hover span.text-content {
+  opacity: 1;
 }
 
+span.text-content span {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+ul.img-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+ul.img-list li {
+  display: inline-block;
+  height: 150px;
+  margin: 0 1em 1em 0;
+  position: relative;
+  width: 150px;
+}
 

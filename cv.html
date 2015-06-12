@@ -7,12 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stephen Pardy's Homepage">
     <meta name="author" content="Stephen Pardy">
-    <link rel="icon" href="../../favicon.ico">
 
     <title>Stephen Pardy - Graduate Student</title>
     <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="home.css" rel="stylesheet">
     <link href="cv.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".expanded").hide();
+
+        $(".expanded, .collapsed").click(function() {
+          $(this).parent().children(".expanded, .collapsed").toggle();
+        });
+      });
+    </script>
 
   </head>
 
@@ -34,7 +43,6 @@
             <li><a href="home.html">Home</a></li>
             <li><a href="research.html">Research</a></li>
             <li class="active"><a href="cv.html">CV</a></li>
-            <li><a href="contact.html">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -60,6 +68,7 @@
           <h1 id="awards">AWARDS</h1>
         </div>
         <div class="col-xs-6 col-md-9">
+          <p>University of Wisconsin - Madison<br />Stebbins Award for significant research achievement.</p>
           <p>Macalester College<br />Dr. Sherman W. Schultz Memorial Award for academic excellence and outstanding research.</p>
           <p>AAS 221<br />Chambliss Astronomy Achievement Student Award</p>
         </div>
@@ -69,7 +78,7 @@
           <h1 id="research-experience">RESEARCH EXPERIENCE</h1>
         </div>
         <div class="col-xs-6 col-md-9">
-          <p><span><em>ISIMA Fellow</em></span> Summer 2014<br />International Summer Institute for Modeling in Astrophysics - CITA, Toronto</p>
+          <p><span><em>ISIMA Summer Student</em></span> Summer 2014<br />International Summer Institute for Modeling in Astrophysics - CITA, Toronto</p>
           <ul>
           <li><p>Used restricted 3-Body models and Markov Chain Monte Carlo techniques to study the tidal stream of NGC 5466 and the dark matter potential of the Milky Way.</p></li>
           </ul>
@@ -80,7 +89,7 @@
           </ul>
           <p><span><em>Research Assistant</em></span> Summer 2011<br />Physics and Astronomy Department, Macalester College, St. Paul, MN</p>
           <ul>
-          <li><p>Reduced GBT data for <a href="research.html#proj=proj-2">LARS</a> - a study of nearby galaxies comparing Lyman Alpha emissions to various properties including HI mass.</p></li>
+          <li><p>Reduced GBT data for <a href="research.html#LARS">LARS</a> - a study of nearby galaxies comparing Lyman Alpha emissions to various properties including HI mass.</p></li>
           </ul>
         </div>
       </div>
@@ -95,7 +104,7 @@
           </ul>
           <p><span><em>Astronomy Preceptor</em></span> Fall 2012<br />Macalester College, St. Paul, MN</p>
           <ul>
-          <li><p>Grader, teaching assistant, and telescope operator for introductory astronomy lab.</p></li>
+          <li><p>Teaching assistant and telescope operator for introductory astronomy lab.</p></li>
           </ul>
         </div>
       </div>
@@ -105,22 +114,79 @@
         </div>
         <div class="col-xs-6 col-md-9">
           <p>
-          Östlin, G.; Hayes, M.; Duval, F.; Sandberg, A.; Rivera-Thorsen, T.; Marquart, T.; Orlitova, I.; Adamo, A.; Melinder, J.; Guaita, L,; Atek, H.; Cannon, J. M.; Gruyters, P.; Herenz, E. C.; Kunth, D.; Laursen, P.; Mas-Hesse, J. M.; Micheva, G.; <b>Pardy, S. A.</b>; Oti-Floranes, H. ; Roth, M. M.; Schaerer, D.; Verhamme, A. 2014 ApJ in press -- <small> The Lyman-alpha Reference Sample: I. Survey outline and first results for Markarian 259</small>
+          <span class="expanded">de Swardt, B.; Sheth, K; Kim, T.; <b>Pardy, S.</b>, D'Onghia, E.; Wilcots, E.; Hinz, J;  Munõz-Mateos, J.-C.; Regan, M. W.; Athanassoula, E.; Bosma, A.; Buta, R. J.; Comerón, S.; Gadotti, D. A.; de Paz, A. G.; Jarrett, T. H.; Elmegreen, D. M.; Elmegreen, B. G.; Knapen, J. H.; Laine, J.; Laurikainen, E.; Ho, L. C.; Madore, B. F.; Meidt, S.; Menéndez-Delmestre, K.; Peng, C. Y.; Salo, H.; Schinnerer, E.; Zaritsky, D., </span>
+          <span class="collapsed">de Swardt, B.; Sheth, K; Kim, T.; <b>Pardy, S.</b></span>
+          <a href="javascript:void(0)" class="collapsed">et al., </a>
+          2015 ApJ In Press -- <small>The Off-center Bar in the Late-type Galaxy NGC 3906 </small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
           </p>
+
           <p>
-          <b>Pardy, S.A.</b>; Cannon, J.M.; Ostlin, G.; Hayes, M.; Rivera-Thorsen, T.; Sandberg, A.; Adamo, A.;  Freeland, E.; Christian Herenz; E., Guaita, L.; Kunth, D.; Laursen, P.; Mas-Hesse, J.M.; Melinder, J.; Orlitova, I.; Oti-Floranes, H.; Puschnig, J.; Schaerer, D.; Verhamme, A., 2014 ApJ 794 101 -- <small> The Lyman Alpha Reference Sample: III. Properties of the
-          Neutral ISM from GBT and VLA Observations</small>
+          <span class="expanded">Guaita, L.; Melinder, J.; Hayes, M.; Östlin, G.; Gonzalez, J. E.; Micheva, G.; Adamo, A.; Mas-Hesse, J. M.; Sandberg, A.; Otí-Floranes, H.; Schaerer, D.; Verhamme, A.; Freeland, E.; Orlitová, I.; Laursen, P.; Cannon, J. M.; Duval, F.; Rivera-Thorsen, T.; Herenz, E. C.; Kunth, D.; Atek, H.; Puschnig, J.; Gruyters, P.; <b>Pardy, S. A.</b>, </span>
+          <span class="collapsed">Guaita, L.; Melinder, J.; Hayes, M.; Östlin, G., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          A&A, 576, A51 -- <small><a href="http://adsabs.harvard.edu/abs/2015A%26A...576A..51G">The Lyman alpha reference sample: IV. Morphology at low and high redshift</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
           </p>
+
           <p>
-          Bernstein-Cooper, E.~Z., Cannon, J. M., Elson, E. C.,Warren,  S.R., Chengalur, J., Skillman, E.D., Adams, E.A.K., Bolatto, A.B., Giovanelli, R., Haynes, M.P., McQuinn, K.B.W., <b>Pardy, S.A</b>, Rhode, K.L., Salzer, J.J. 2014, AJ in press, arXiv:1404.5298 --
-          <small>ALFALFA Discovery of the Nearby Gas-rich Dwarf Galaxy Leo P. V. Neutral Gas Dynamics and Kinematics</small>
+          <span class="expanded">Östlin, G.; Hayes, M.; Duval, F.; Sandberg, A.; Rivera-Thorsen, T.; Marquart, T.; Orlitova, I.; Adamo, A.; Melinder, J.; Guaita, L,; Atek, H.; Cannon, J. M.; Gruyters, P.; Herenz, E. C.; Kunth, D.; Laursen, P.; Mas-Hesse, J. M.; Micheva, G.; <b>Pardy, S. A.</b>; Oti-Floranes, H. ; Roth, M. M.; Schaerer, D.; Verhamme, A. </span>
+          <span class="collapsed">Östlin, G.; Hayes, M.; Duval, F.; Sandberg, A., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          2014 ApJ, 797, 11 -- <small><a href="http://adsabs.harvard.edu/abs/2014ApJ...797...11O"> The Lyman-alpha Reference Sample: I. Survey outline and first results for Markarian 259</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
           </p>
+
           <p>
-          Hayes, M.; Ostlin, G.; Duval, F.; Sandberg, A; Guaita, L; Melinder, J; Adamo, A; Schaerer, D; Verhamme, A; Orlitov, I; Mas-Hesse, J. M; Cannon, J. M.; Atek, H.; Kunth, D.; Laursen, P.; Ot-Floranes, H.; <b>Pardy, S.</b>; Rivera-Thorsen, T.; Herenz, E. C., 2014, ApJ, 782, 6 -- <small> The Lyman alpha Reference Sample: II. HST imaging results, integrated properties and trends</small>
+          <span class="expanded"><b>Pardy, S.A.</b>; Cannon, J.M.; Östlin, G.; Hayes, M.; Rivera-Thorsen, T.; Sandberg, A.; Adamo, A.;  Freeland, E.; Christian Herenz; E., Guaita, L.; Kunth, D.; Laursen, P.; Mas-Hesse, J.M.; Melinder, J.; Orlitova, I.; Oti-Floranes, H.; Puschnig, J.; Schaerer, D.; Verhamme, A.,</span>
+          <span class="collapsed"><b>Pardy, S.A.</b>; Cannon, J.M.; Östlin, G.; Hayes, M., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          2014 ApJ, 794, 101 -- <small><a href="http://adsabs.harvard.edu/abs/2014ApJ...794..101P"> The Lyman Alpha Reference Sample: III. Properties of the
+          Neutral ISM from GBT and VLA Observations</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
           </p>
+
           <p>
-          Cannon, J. M., Bernstein-Cooper, E. Z., Cave, I. M., Harris, J. B., Marshall, M. V., Moen, J. M. , Moody, S. J., O'Leary, E. M., <b>Pardy, S. A.</b>, Thomann, C. M.,  2012, AJ, 144, 82 -- <small> The Neutral Gas Dynamics of the Nearby Magellanic Irregular Galaxy UGCA 105</small>
+          <span class="expanded">Bernstein-Cooper, E.~Z., Cannon, J. M., Elson, E. C.,Warren,  S.R., Chengalur, J., Skillman, E.D., Adams, E.A.K., Bolatto, A.B., Giovanelli, R., Haynes, M.P., McQuinn, K.B.W., <b>Pardy, S.A</b>, Rhode, K.L., Salzer, J.J., </span>
+          <span class="collapsed">Bernstein-Cooper, E.~Z., Cannon, J. M., Elson, E. C.,Warren,  S.R., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          2014, AJ, 148, 35 --
+          <small><a href="http://adsabs.harvard.edu/abs/2014AJ....148...35B">ALFALFA Discovery of the Nearby Gas-rich Dwarf Galaxy Leo P. V. Neutral Gas Dynamics and Kinematics</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
           </p>
+
+          <p>
+          <span class="expanded">Hayes, M.; Östlin, G.; Duval, F.; Sandberg, A; Guaita, L; Melinder, J; Adamo, A; Schaerer, D; Verhamme, A; Orlitov, I; Mas-Hesse, J. M; Cannon, J. M.; Atek, H.; Kunth, D.; Laursen, P.; Ot-Floranes, H.; <b>Pardy, S.</b>; Rivera-Thorsen, T.; Herenz, E. C.,</span>
+          <span class="collapsed">Hayes, M.; Östlin, G.; Duval, F.; Sandberg, A., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          2014, ApJ, 782, 6 -- <small><a href="http://adsabs.harvard.edu/abs/2014ApJ...782....6H"> The Lyman alpha Reference Sample: II. HST imaging results, integrated properties and trends</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
+          </p>
+
+          <p>
+          <span class="expanded">Cannon, J. M., Bernstein-Cooper, E. Z., Cave, I. M., Harris, J. B., Marshall, M. V., Moen, J. M. , Moody, S. J., O'Leary, E. M., <b>Pardy, S. A.</b>, Thomann, C. M., </span>
+          <span class="collapsed">Cannon, J. M., Bernstein-Cooper, E. Z., Cave, I. M., Harris, J. B., </span><a href="javascript:void(0)" class="collapsed">et al., </a>
+          2012, AJ, 144, 82 -- <small><a href="http://adsabs.harvard.edu/abs/2012AJ....144...82C"> The Neutral Gas Dynamics of the Nearby Magellanic Irregular Galaxy UGCA 105</a></small>
+          <br>
+          <a href="javascript:void(0)" class="expanded">Collapse</a>
+          </p>
+        </div>
+      </div>
+      <div class="row top-buffer">
+        <div class="col-xs-12 col-md-3">
+          <h1 id="research-experience">Outreach</h1>
+        </div>
+        <div class="col-xs-6 col-md-9">
+          <p>Universe in the Park - 08/14/2014, 08/31/2014</p>
+          <p>Wisconsin Science Fair 2014 - Hosted Washburn Observatory open house</p>
+          <p><span><em>Tutor and instructor:</em></span></p>
+          <ul>
+          <li><p>Stellar evolution workshop at Wisconsin state Science Olympiad competition winter 2014.</p></li>
+          <li><p>Ramsey Junior High School Science Fair 2013.</p></li>
+          </ul>
+          <p>Hosted public observing nights at Macalester College.</p>
+          <p>Treasurer and founding member of Physics Club at Macalester College.</p>
         </div>
       </div>
     </div><!-- /.container -->

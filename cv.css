@@ -3,6 +3,8 @@
 }
 html, body {
     height: 100%;
+    font: 16px sans-serif;
+
 }
 .wrapper {
     min-height: 100%;

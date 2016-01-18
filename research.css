@@ -9,12 +9,11 @@ div.proj_content.inactive {
     display: none;
 }
 
-
 html {
   overflow-y: scroll;
   position: relative;
   min-height: 100%;
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 }
 
 body {

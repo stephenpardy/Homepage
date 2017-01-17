@@ -1,0 +1,282 @@
+<html>
+<head>
+
+  <title>Dehnen Density and Velocity</title>
+  <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./d3.slider.css" />
+    <style type="text/css">
+    body{
+        font-family: sans-serif;
+    }
+    svg{
+        //border: 1px solid #eee;
+    }
+    .line{
+        fill:none;
+        stroke-width:1px;
+    }
+
+    .disk{
+        stroke:#aaa;
+    }
+
+    .halo{
+        stroke:#93f;
+    }
+
+    .axis path {
+      display: none;
+    }
+
+    .axis line {
+      shape-rendering: crispEdges;
+      stroke: #777;
+      stroke-dasharray: 1,5;
+    }
+
+    .axis .minor line {
+      stroke: #eee;
+      stroke-dasharray: 2,2;
+    }
+    .brush .extent {
+        stroke: #000;
+        fill-opacity: .125;
+        shape-rendering: crispEdges;
+    }
+    </style>
+</head>
+<body>
+<div class="row">
+<div class="col-md-6"><h1>Halo Properties</h1></div>
+</div>
+
+<div class="row">
+<div class="col-md-6"><h2>Mass</h2><div id="sliderMhalo"></div></div>
+</div>
+
+<div class="row">
+<div class="col-md-6"><h2>Scale Length</h2><div id="sliderRhalo"></div></div>
+</div>
+
+<div class="row">
+<div class="col-md-6"><h2>Gamma</h2><div id="sliderGamma"></div></div>
+</div>
+
+<div class="row">
+  <div class="col-md-6" id="area1"></div>
+  <div class="col-md-6" id="area2"></div>
+</div>
+
+</body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="./d3.slider.js"></script>
+<script src="./underscore.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var G = 43007.0;
+
+var margin = {
+    left:30,
+    right:30,
+    top:30,
+    bottom:30
+}
+var width = 500;
+var height = 500;
+
+var r = _.range(0.1, 10, 0.1);
+
+var gamma = 1;
+var mhalo = 120; //10^10 msun
+var rhalo = 20; //kpc
+
+var density = getDensity(r, gamma, mhalo, rhalo);
+var velocity = getVelocity(r, gamma, mhalo, rhalo);
+
+var svg1 = d3.select('#area1')
+            .append('svg')
+            .attr('height', height+margin.top+margin.bottom)
+            .attr('width', width+margin.left+margin.right);
+
+var svg2 = d3.select('#area2')
+            .append('svg')
+            .attr('height', height+margin.top+margin.bottom)
+            .attr('width', width+margin.left+margin.right);
+
+var rScale = d3.scale.linear()
+    .domain( d3.extent(r) )
+    .range( [margin.left, width-margin.right] );
+
+var xAxis1 = d3.svg.axis()
+    .scale(rScale)
+    .tickSize(6, 0)
+    .orient("bottom");
+
+svg1.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0,"+(height-margin.top)+")")
+    .call(xAxis1);
+
+svg1.append("text")             // text label for the x axis
+    .attr("transform",
+          "translate(" + (width/2) + " ," +
+                         (height+margin.bottom) + ")")
+    .style("text-anchor", "middle")
+    .text("Radius [kpc]");
+
+var xAxis2 = d3.svg.axis()
+    .scale(rScale)
+    .tickSize(6, 0)
+    .orient("bottom");
+
+svg2.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0,"+(height-margin.top)+")")
+    .call(xAxis2);
+
+svg2.append("text")             // text label for the x axis
+    .attr("transform",
+          "translate(" + (width/2) + " ," +
+                         (height+margin.bottom)+ ")")
+    .style("text-anchor", "middle")
+    .text("Radius [kpc]");
+
+var densityScale = d3.scale.log()
+    .domain( d3.extent( density ) )
+    .range( [height-margin.top, margin.bottom] );
+
+var velocityScale = d3.scale.linear()
+    .domain( d3.extent( velocity ) )
+    .range( [height-margin.top, margin.bottom] );
+
+var densityLine = d3.svg.line()
+    .x(function(d,i) { return rScale(i); })
+    .y(function(d,i) { return densityScale(d); });
+
+var velocityLine = d3.svg.line()
+    .x(function(d,i) { return rScale(i); })
+    .y(function(d,i) { return velocityScale(d); });
+
+var densityChart = svg1.append('path')
+                    .data([density])
+                    .attr("class", "line halo")
+                    .attr("d", densityLine)
+                    .attr("ID", "density");
+
+var velocityChart = svg2.append('path')
+                    .data([velocity])
+                    .attr("class", "line halo")
+                    .attr("d", velocityLine)
+                    .attr("ID", "velocity");
+
+var densityTicks = d3.extent(density);
+var velocityTicks = d3.extent(velocity);
+
+var yAxis1 = d3.svg.axis()
+    .scale(densityScale)
+    .tickSize(width - (margin.left+margin.right))
+    //.tickValues( densityTicks )
+    .orient("left");
+
+svg1.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate("+(width-margin.left)+",0)")
+    .call(yAxis1)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", (-height+margin.left))
+    .attr("x", (-height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Density");
+
+var yAxis2 = d3.svg.axis()
+    .scale(velocityScale)
+    .tickSize(width - (margin.left+margin.right))
+    //.tickValues( velocityTicks )
+    .orient("left");
+
+svg2.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate("+(width-margin.left)+",0)")
+    .call(yAxis2)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", (-height+margin.left))
+    .attr("x", -(height/2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Velocity [km/s]");
+
+
+d3.select('#sliderMhalo').call(d3.slider().min(10).max(200).step(1).value(mhalo).on("slide", function(evt, value) {
+    mhalo = value;
+    density = getDensity(r, gamma, mhalo, rhalo);
+    velocity = getVelocity(r, gamma, mhalo, rhalo);
+    updateGraphs(density, velocity);
+}));
+
+d3.select('#sliderRhalo').call(d3.slider().min(1).max(50).step(1).value(rhalo).on("slide", function(evt, value) {
+    mhalo = value;
+    density = getDensity(r, gamma, mhalo, rhalo);
+    velocity = getVelocity(r, gamma, mhalo, rhalo);
+    updateGraphs(density, velocity);
+}));
+
+d3.select('#sliderGamma').call(d3.slider().min(0).max(1.9).step(0.1).value(gamma).on("slide", function(evt, value) {
+    gamma = value;
+    density = getDensity(r, gamma, mhalo, rhalo);
+    velocity = getVelocity(r, gamma, mhalo, rhalo);
+    updateGraphs(density, velocity);
+}));
+
+function updateGraphs(density, velocity){
+    densityScale = d3.scale.log()
+                     .domain( d3.extent(density) )
+                     .range( [height-margin.top, margin.bottom] );
+    velocityScale = d3.scale.linear()
+                      .domain( d3.extent(velocity) )
+                      .range( [height-margin.top, margin.bottom] );
+
+    yAxis1 = d3.svg.axis()
+               .scale(densityScale)
+               .tickSize(width - (margin.left+margin.right))
+               .orient("left");
+
+    yAxis2 = d3.svg.axis()
+               .scale(velocityScale)
+               .tickSize(width - (margin.left+margin.right))
+               .orient("left");
+
+    svg1.select("g.y.axis").call(yAxis1);
+    svg2.select("g.y.axis").call(yAxis2);
+    svg1.select(".line.halo")
+      .data([density]) // set the new data
+      .attr("d", densityLine); // apply the new data values
+    svg2.select(".line.halo")
+      .data([velocity]) // set the new data
+      .attr("d", velocityLine); // apply the new data values
+};
+
+function getDensity(radius, gamma, mass, scale){
+    var density = new Array(radius.length);
+    for (var i=0; i<radius.length; i++){
+        density[i] = (3-gamma)*mass/(4*Math.PI)*
+                    scale/(Math.pow(radius[i], gamma)*
+                           Math.pow(radius[i]+scale, 4-gamma));
+    }
+    return density;
+};
+
+function getVelocity(radius, gamma, mass, scale){
+    var velocity = new Array(radius.length);
+    for (var i=0; i<radius.length; i++){
+        velocity[i] = Math.sqrt(G*mass*Math.pow(radius[i], 2-gamma)/
+                                Math.pow(radius[i]+scale, 3-gamma));
+    }
+    return velocity;
+};
+
+
+</script>
+</html>

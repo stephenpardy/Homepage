@@ -1,0 +1,274 @@
+<html>
+<head>
+
+  <title>Bar Offsets</title>
+  <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+    body {
+      font: 14px sans-serif;
+    }
+
+    input {
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      text-align: center;
+      font: 16px;
+      width: 60px;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .line {
+      fill: none;
+      stroke-width: 2px;
+    }
+    .line.disk{
+        stroke:#000;
+    }
+
+    .line.bar{
+        stroke:#FF9933;
+    }
+
+    .overlay {
+      fill: none;
+      pointer-events: all;
+    }
+
+    .focus circle {
+      fill: none;
+      stroke: steelblue;
+    }
+    .focus line {
+      stroke: purple;
+      shape-rendering: crispEdges;
+    }
+
+    .focus line.dist {
+      stroke: purple;
+      opacity: 1;
+      stroke-width: 2px;
+    }
+    .legend rect {
+      fill:white;
+      stroke:black;
+      opacity:0.8;}
+    }
+    </style>
+</head>
+<body>
+<div id='chart'></div>
+
+
+
+<div class="col-md-1" id="disk">
+Halo Type:
+<select name="aa" onchange="update(this.value, _angle)">
+<option value="HernOffsets.csv">Hernquist</option>
+<option value="DehnenOffsets.csv">Dehnen</option>
+</select>
+</div>
+<div class="col-md-2" id="disk">
+Orbital Angle:
+<select name="bb" onchange="update(_file, this.value)">
+<option value="45deg">Theta = 45</option>
+<option value="90deg">Theta = 90</option>
+<option value="0deg">Theta = 0, prograde</option>
+<option value="0deg_retro">Theta = 0, retrograde</option>
+</select>
+</div>
+
+<h4>Based on code from: <a href="http://bl.ocks.org/gniemetz/4618602">gniemtez</a> and <a href="http://bl.ocks.org/ZJONSSON/3918369">ZJONSSON</a> among others.</h4>
+
+
+</body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="./d3.legend.js"></script>
+<script type="text/javascript" src="./d3.slider.js"></script>
+<script type="text/javascript">
+
+var margin = {
+    left:100,
+    right:30,
+    top:70,
+    bottom:50
+}
+var width = 960-margin.left-margin.right;
+var height = 500-margin.top-margin.bottom;
+
+var x = d3.scale.linear()
+    .domain([0.0, 4.0])
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0])
+    .domain([0, 3]);
+
+var lineDisk = d3.svg.line()
+    .x(function(d) { return x(d.times); })
+    .y(function(d) { return y(d.diskDist); });
+
+var lineBar = d3.svg.line()
+    .x(function(d) { return x(d.times); })
+    .y(function(d) { return y(d.barDist); });
+
+var xAxis = d3.svg.axis().scale(x).orient("bottom");
+
+var bisectTime = d3.bisector(function(d) { return d.times; }).left;
+
+var svg = d3.select('#chart')
+            .append('svg')
+            .attr('height', height+margin.bottom+margin.top)
+            .attr('width', width+margin.left+margin.right)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.bottom + ")");
+
+svg.append("g")
+   .attr("class","x axis")
+   .attr("transform", "translate(0," + (height) + ")")
+   .call(xAxis);
+
+svg.append("text")             // text label for the x axis
+    .attr("transform",
+          "translate(" + (width/2) + " ," +
+                         (height+margin.bottom)+ ")")
+    .style("text-anchor", "middle")
+    .style("Font-size", "20px")
+    .text("Time [Gyr]");
+
+var _angle = "45deg";
+var _file = 'HernOffsets.csv';
+
+var focus = svg.append("g")
+               .attr("class", "focus")
+               .style("display", "none");
+
+var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient("left");
+
+svg.selectAll(".y.axis").remove();
+
+svg.append("g")
+   .attr("class", "y axis")
+   .attr("transform", "translate(1," + (0) + ")")
+   .call(yAxis)
+   .append("text")
+   .attr("transform", "rotate(-90)")
+   .attr("y", (-margin.left+10))
+   .attr("x", (-height/2))
+   .attr("dy", "1em")
+   .style("text-anchor", "middle")
+   .style("Font-size", "20px")
+   .text("Distance from Halo Center [kpc]");
+
+function render(filename, angle){
+  _angle = angle;
+  _file = filename;
+  d3.csv(filename, function(error, dataset) {
+    data = dataset.map(function(d)
+    {
+      times = parseFloat(d["stars90degtime"])
+      diskDist = parseFloat(d["stars"+angle+"diskDist"])
+      barDist = parseFloat(d["stars"+angle+"barDist"])
+      return {"times": times, "diskDist": diskDist, "barDist": barDist};
+    });
+
+    svg.selectAll(".line").remove();
+
+    var lines = svg.selectAll(".line").data([data]).attr("class","line");
+
+    lines.enter().append("path")
+      .attr("class","line disk")
+      .attr("data-legend","Disk")
+      .attr("d",lineDisk);
+
+    lines.enter().append("path")
+      .attr("class","line bar")
+      .attr("data-legend","Bar")
+      .attr("d",lineBar);
+
+    focus.append("line")
+        .attr("class", "dist")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", 0)
+        .attr("y2", 0);
+
+    focus.append("circle")
+          .attr("class", "disk")
+          .attr("r", 4.5);
+    focus.append("circle")
+          .attr("class", "bar")
+          .attr("r", 4.5);
+
+    focus.append("text")
+        .attr("x", 9)
+        .attr("dy", ".35em");
+
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
+    legend = svg.append("g")
+        .attr("class","legend")
+        .attr("transform","translate("+(width-margin.right)+","+margin.top+")")
+        .style("font-size","14px")
+        .call(d3.legend);
+
+  });
+};
+
+render(_file, _angle);
+
+function update(filename, angle){
+  _angle = angle;
+  _file = filename;
+  d3.csv(filename, function(error, dataset) {
+    data = dataset.map(function(d)
+    {
+      times = parseFloat(d["stars90degtime"])
+      diskDist = parseFloat(d["stars"+angle+"diskDist"])
+      barDist = parseFloat(d["stars"+angle+"barDist"])
+      return {"times": times, "diskDist": diskDist, "barDist": barDist};
+    });
+
+    var bar_line = svg.selectAll(".line.bar").data([data]).transition();
+    var disk_line = svg.selectAll(".line.disk").data([data]).transition();
+
+    bar_line.duration(750)
+            .attr("d", lineBar);
+
+    disk_line.duration(750)
+            .attr("d", lineDisk);
+
+  });
+};
+
+function mousemove() {
+  var x0 = x.invert(d3.mouse(this)[0]),
+      i = bisectTime(data, x0, 1),
+      d0 = data[i - 1],
+      d1 = data[i],
+      d = x0 - d0.times > d1.times - x0 ? d1 : d0;
+  focus.select("circle.disk").attr("transform", "translate(" + x(d.times) + "," + y(d.diskDist) + ")");
+  focus.select("circle.bar").attr("transform", "translate(" + x(d.times) + "," + y(d.barDist) + ")");
+  focus.select("text").text((d.diskDist-d.barDist).toFixed(2));
+  focus.select("text").attr("transform", "translate(" + x(d.times) + "," +
+                            y((d.diskDist+d.barDist)/2.) + ")");
+  focus.select("line.dist").attr("transform", "translate(" + x(d.times) + ", 0)");
+  focus.select("line.dist").attr("y1", y(d.barDist)).attr("y2", y(d.diskDist));
+};
+
+</script>
+</html>

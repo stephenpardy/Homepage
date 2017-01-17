@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Rotation Curve Demonstration</title>
+
+    <script src="http://d3js.org/d3.v2.min.js?2.10.0"></script>
+    <script src="xkcd.js"></script>
+
+<style>
+
+@font-face {
+    font-family: "xkcd";
+}
+
+body {
+    font-family: "xkcd", sans-serif;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+    margin-top: 75px;
+}
+
+text.title {
+    font-size: 20px;
+}
+
+path {
+    fill: none;
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+path.axis {
+    stroke: black;
+}
+
+path.bgline {
+    stroke: white;
+    stroke-width: 6px;
+}
+
+</style>
+
+</head>
+<body>
+<div id='viz'></div>
+    <script>
+
+    var disk, halo, tot;
+    var plot = xkcdplot();
+    d = d3.csv("Dehnen_rotcurve.txt", function(dataset) {
+        disk = dataset.map(function(d)
+        {
+          R = parseFloat(d["R"])
+          sqrtVC2disk = parseFloat(d["sqrtVC2disk"])
+          return {"x":R, "y":sqrtVC2disk};
+        });
+        halo = dataset.map(function(d)
+        {
+          R = parseFloat(d["R"])
+          sqrtVC2dm = parseFloat(d["sqrtVC2dm"])
+          return {"x":R, "y":sqrtVC2dm};
+        });
+        tot = dataset.map(function(d)
+        {
+          R = parseFloat(d["R"])
+          sqrtVC2tot = parseFloat(d["sqrtVC2tot"])
+          return {"x":R, "y":sqrtVC2tot};
+        });
+        plot('#viz');
+        plot.plot(disk, {id: 'diskLine', strokeWidth: 0});
+        plot.plot(halo, {id: 'haloLine', stroke: 'red', strokeWidth: 0});
+        plot.plot(tot, {id: 'totLine', stroke: 'black', strokeWidth: 0});
+
+        plot.xlim([0, 30]).draw();
+    });
+
+    function drawDisk(){
+        d3.selectAll("svg").selectAll("path.diskLine")
+          .style('stroke-width', '4px')
+        d3.selectAll("svg").selectAll("path.diskLine")
+          .transition()
+          .duration(2000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0);
+    };
+    function drawHalo(){
+        d3.selectAll("svg").selectAll("path.haloLine")
+          .style('stroke-width', '4px')
+        d3.selectAll("svg").selectAll("path.haloLine")
+          .transition()
+          .duration(2000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0);
+    };
+    function drawTot(){
+        d3.selectAll("svg").selectAll("path.totLine")
+          .style('stroke-width', '4px')
+        d3.selectAll("svg").selectAll("path.totLine")
+          .transition()
+          .duration(2000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0);
+    };
+
+    </script>
+<button type="button" onclick="drawDisk()">Disk</button>
+<button type="button" onclick="drawHalo()">Halo</button>
+<button type="button" onclick="drawTot()">Tot</button>
+
+</body>
+</html>
